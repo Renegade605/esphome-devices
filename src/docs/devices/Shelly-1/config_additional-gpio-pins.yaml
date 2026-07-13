@@ -24,10 +24,10 @@ binary_sensor:
     platform: gpio
     pin:
       number: GPIO1
-      inverted: true # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
+      inverted: true  # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
       mode:
         input: true
-        pullup: true # GPIO1 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
+        pullup: true  # GPIO1 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
     filters:
       - delayed_off: 50ms
 
@@ -36,9 +36,9 @@ binary_sensor:
     platform: gpio
     pin:
       number: GPIO3
-      inverted: true # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
+      inverted: true  # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
       mode:
         input: true
-        pullup: true # GPIO3 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
+        pullup: true  # GPIO3 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
     filters:
       - delayed_off: 50ms

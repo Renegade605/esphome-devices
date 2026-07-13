@@ -1,3 +1,6 @@
+substitutions:
+  device_name: Shelly 1 # For event text later
+
 # Basic config
 esphome:
   name: shelly_detached_momentary
@@ -20,7 +23,6 @@ binary_sensor:
 
   - platform: gpio
     pin: GPIO5
-    name: Button
     # config for multi click actions
     on_multi_click:
       # double click
@@ -81,5 +83,3 @@ binary_sensor:
               # toggle relay in case either wifi or api are not connected
               else:
                 - switch.toggle: shelly_relay
-    internal: true
-    id: button

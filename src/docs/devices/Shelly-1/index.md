@@ -71,6 +71,10 @@ version and Wifi status
 
 ## Using Additional GPIO Pins
 
+> [!IMPORTANT]
+> GPIO0 is a bootstrapping pin. The pin must not be pulled low during boot.
+> It is safe to use as an output. Use as an input only if you understand the implications.
+
 When on DC power, the three pins of the programming header are available to use as additional GPIO.
 
 **Note:** The output voltage of these pins is 3.3V max, not the full DC supply voltage.
@@ -78,11 +82,6 @@ When on DC power, the three pins of the programming header are available to use 
 > [!CAUTION]
 > When powered by AC line voltage, GPIO pins are referenced to AC(L).
 > **DO NOT** Attempt to use the programming header as GPIO pins unless the Shelly 1 is powered by DC.
-
-
-> [!IMPORTANT]
-> GPIO0 is a bootstrapping pin. The pin must not be pulled low during boot.
-> It is safe to use as an output. Use as an input only if you know for sure it will never be low during boot.
 
 ```yaml file=config_additional-gpio-pins.yaml
 ```

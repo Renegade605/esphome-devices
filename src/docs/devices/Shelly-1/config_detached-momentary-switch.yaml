@@ -1,5 +1,5 @@
 substitutions:
-  device_name: Shelly 1 # For event text later
+  device_name: Shelly 1  # For event text later
 
 # Basic config
 esphome:
@@ -46,7 +46,7 @@ binary_sensor:
               # toggle relay in case either wifi or api are not connected
               else:
                 - switch.toggle: shelly_relay
-        # long click
+      # long click
       - timing:
           - ON for at least 1.5s
         then:
@@ -64,7 +64,7 @@ binary_sensor:
               # toggle relay in case either wifi or api are not connected
               else:
                 - switch.toggle: shelly_relay
-        # single click
+      # single click
       - timing:
           - ON for at most 1s
           - OFF for at least 0.5s

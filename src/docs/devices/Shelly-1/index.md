@@ -79,6 +79,7 @@ When on DC power, the three pins of the programming header are available to use 
 > When powered by AC line voltage, GPIO pins are referenced to AC(L).
 > **DO NOT** Attempt to use the programming header as GPIO pins unless the Shelly 1 is powered by DC.
 
+
 > [!IMPORTANT]
 > GPIO0 is a bootstrapping pin. The pin must not be pulled low during boot.
 > It is safe to use as an output. Use as an input only if you know for sure it will never be low during boot.

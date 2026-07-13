@@ -12,10 +12,15 @@ board: esp8266
 
 ## GPIO Pinout
 
-| Pin   | Function     |
-| ----- | ------------ |
-| GPIO4 | Relay        |
-| GPIO5 | Switch Input |
+| Pin   | Function          |
+| ----- | ----------------- |
+| GPIO4 | Relay             |
+| GPIO5 | Switch Input      |
+| GPIO0 | Bootstrapping Pin |
+| GPIO1 | Tx (Serial UART0) |
+| GPIO3 | Rx (Serial UART0) |
+
+![Shelly 1 Pins](./shelly-1-pins.png "Shelly 1 Pins")
 
 ## Basic Configuration
 
@@ -31,8 +36,11 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
-logger:
 api:
+  encryption:
+    key: !secret api_key
+
+logger:
 ota:
 
 # Device Specific Config
@@ -53,11 +61,11 @@ binary_sensor:
       number: GPIO5
       #mode: INPUT_PULLUP
       #inverted: True
-    name: "Switch Shelly 1"
+    name: "Shelly 1 Switch"
     on_state:
       then:
         - light.toggle: lightid
-    internal: true
+    #internal: true
     id: switchid
 ```
 
@@ -432,6 +440,94 @@ sensor:
     name: $friendly_name "Uptime"
 
 ```
+
+## Using Additional GPIO Pins
+
+When on DC power, the three pins of the programming header are available to use as additional GPIO.
+
+**Note:** The output voltage of these pins is 3.3V max, not the full DC supply voltage.
+
+> [!CAUTION]
+> When powered by AC line voltage, GPIO pins are referenced to AC(L).
+> 
+> **DO NOT** Attempt to use the programming header as GPIO pins unless the Shelly 1 is powered by DC.
+
+> [!IMPORTANT]
+> GPIO0 is a bootstrapping pin. The pin must not be pulled low during boot.
+> 
+> It is safe to use as an output. Use as an input only if you know for sure it will never be low during boot.
+
+```yaml
+# Basic Config
+esphome:
+  name: shelly_1
+
+esp8266:
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret api_key
+
+logger:
+ota:
+
+# Inputs
+binary_sensor:
+
+  - id: input_zero
+    name: GPIO0
+    platform: gpio
+    pin:
+      number: GPIO0
+      inverted: true # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
+    filters:
+      - delayed_off: 50ms
+
+  - id: input_one
+    name: GPIO1
+    platform: gpio
+    pin:
+      number: GPIO1
+      inverted: true # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
+      mode:
+        input: true
+        pullup: true # GPIO1 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
+    filters:
+      - delayed_off: 50ms
+
+  - id: input_three
+    name: GPIO3
+    platform: gpio
+    pin:
+      number: GPIO3
+      inverted: true # Default behaviour is N/C (high) = On, GND (low) = Off; Invert to fix.
+      mode:
+        input: true
+        pullup: true # GPIO3 is floating by default; Enable pull-up resistor to avoid unexpected behaviour.
+    filters:
+      - delayed_off: 50ms
+
+  - id: input_five
+    name: GPIO5 (SW Input)
+    platform: gpio
+    pin: GPIO5
+    filters:
+      - delayed_off: 50ms
+
+# Output
+switch:
+
+  - id: output_four
+    name: GPIO4 (Relay)
+    platform: gpio
+    pin: GPIO4
+```
+
 
 ## Links
 

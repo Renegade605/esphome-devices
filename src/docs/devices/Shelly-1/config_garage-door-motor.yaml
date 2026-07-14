@@ -46,7 +46,7 @@ cover:
       }
     open_action: &buttonPressTemplate
       - output.turn_on: relay
-      - delay: 250ms
+      - delay: 500ms
       - output.turn_off: relay
     close_action: *buttonPressTemplate
     stop_action: *buttonPressTemplate
